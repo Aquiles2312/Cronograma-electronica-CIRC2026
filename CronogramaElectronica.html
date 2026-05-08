@@ -1,0 +1,1750 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cronograma de Desarrollo - CIRC 2026</title>
+<script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js'></script>
+<style>
+  :root {
+    --bg-page: #f4f6f9;
+    --bg-card: #ffffff;
+    --text-main: #2b3035;
+    --text-muted: #6c757d;
+    --border-color: #e9ecef;
+    --primary: #0d6efd;
+    --secondary: #6c757d;
+    --pdb-color: #198754;
+    --pcbchasis-color: #0d6efd;
+    --pcbbrazo-color: #6f42c1;
+    --can-color: #fd7e14;
+    --safety-color: #dc3545;
+    --integration-color: #20c997;
+    --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: var(--font-family);
+    background-color: var(--bg-page);
+    color: var(--text-main);
+    line-height: 1.6;
+    padding: 2.5rem 1rem;
+  }
+  .container {
+    max-width: 1140px;
+    margin: 0 auto;
+    background: var(--bg-card);
+    padding: 3.5rem;
+    border-radius: 16px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.06);
+  }
+  
+  h1, h2, h3 { color: #212529; }
+  h1 { 
+    border-bottom: 3px solid var(--primary); 
+    padding-bottom: 0.8rem; 
+    margin-bottom: 1.5rem;
+    font-size: 2.4rem;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+  }
+  .header-info { 
+    margin-bottom: 2rem; 
+    color: var(--text-muted); 
+    font-size: 15px; 
+    background: #f8f9fa;
+    padding: 1.5rem;
+    border-radius: 10px;
+    border-left: 5px solid var(--primary);
+    line-height: 1.8;
+  }
+  .header-info strong { color: #343a40; }
+  
+  /* --- ESTILOS PROFESIONALES DEL CALENDARIO --- */
+#calendar {
+  width: 100%;
+  margin: 3.5rem 0;
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.04);
+  overflow: hidden;
+  padding: 1rem;
+}
+  
+  .fc {
+    font-family: var(--font-family);
+    width: 100%;
+  }
+  .fc .fc-toolbar-title {
+    font-size: 1.8rem !important;
+    font-weight: 800;
+    color: #212529;
+    text-transform: capitalize;
+  }
+  .fc .fc-button-primary {
+    background-color: #ffffff !important;
+    color: #495057 !important;
+    border: 1px solid #ced4da !important;
+    border-radius: 8px !important;
+    font-weight: 600;
+    font-size: 14px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.02) !important;
+    transition: all 0.2s ease-in-out;
+    text-transform: capitalize;
+    padding: 0.5rem 1.2rem !important;
+  }
+  .fc .fc-button-primary:hover, .fc .fc-button-primary:not(:disabled).fc-button-active {
+    background-color: #f8f9fa !important;
+    color: var(--primary) !important;
+    border-color: #adb5bd !important;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.05) !important;
+  }
+  .fc .fc-button-primary:focus {
+    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.15) !important;
+  }
+  
+  .fc-theme-standard th {
+    padding: 12px 0;
+    background: #f8f9fa;
+    font-weight: 700;
+    color: #495057;
+    text-transform: uppercase;
+    font-size: 13px;
+    letter-spacing: 0.5px;
+    border-color: #e9ecef;
+  }
+  .fc-theme-standard td, .fc-theme-standard th { border-color: #eaedf1; }
+  .fc .fc-daygrid-day.fc-day-today {
+    background-color: rgba(13, 110, 253, 0.03) !important;
+  }
+  .fc .fc-daygrid-day-number {
+    color: #495057;
+    font-weight: 600;
+    padding: 10px;
+    font-size: 14px;
+    text-decoration: none;
+  }
+  .fc .fc-daygrid-day-number:hover { text-decoration: underline; color: var(--primary); }
+  
+  .fc-event {
+    cursor: pointer;
+    border: none !important;
+    border-radius: 6px !important;
+    font-size: 11.5px !important;
+    font-weight: 700;
+    padding: 4px 6px !important;
+    margin: 2px 4px !important;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.08) !important;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+  .fc-event:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 12px rgba(0,0,0,0.15) !important;
+    filter: brightness(1.05);
+    z-index: 5;
+  }
+  .fc-scrollgrid {
+  width: 100% !important;
+  }
+  .fc-daygrid-body {
+    width: 100% !important;
+  }
+
+  .fc-scrollgrid-sync-table {
+    width: 100% !important;
+  }
+
+  .fc-daygrid-body {
+    width: 100% !important;
+  }
+
+  .fc-scrollgrid-sync-table {
+    width: 100% !important;
+  }
+
+  /* --- TABLAS --- */
+  table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    margin-bottom: 4rem;
+    font-size: 14.5px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  th, td {
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--border-color);
+    border-right: 1px solid var(--border-color);
+    text-align: left;
+    vertical-align: top;
+  }
+  th:last-child, td:last-child { border-right: none; }
+  tbody tr:last-child td { border-bottom: none; }
+  
+  th { 
+    background-color: #f1f3f5; 
+    font-weight: 700; 
+    color: #495057; 
+    text-transform: uppercase;
+    font-size: 12.5px;
+    letter-spacing: 0.5px;
+  }
+  tbody tr:hover { background-color: rgba(0,0,0,0.015); }
+  
+  .phase-title { font-weight: 800; color: #212529; font-size: 15px;}
+  .days-badge {
+    display: inline-block; padding: 4px 10px; border-radius: 20px;
+    background: #e9ecef; color: #495057; font-size: 11.5px; font-weight: 800; margin-top: 8px;
+  }
+  
+  h2[class$="-title"] {
+    margin-top: 1.5rem;
+    padding-bottom: 8px;
+    font-size: 1.8rem;
+    font-weight: 700;
+  }
+.pdb-title {
+  color: #146c43;
+  border-bottom: 4px solid var(--pdb-color);
+  display: inline-block;
+}
+
+.pcbchasis-title {
+  color: #0a58ca;
+  border-bottom: 4px solid var(--pcbchasis-color);
+  display: inline-block;
+}
+
+.pcbbrazo-title {
+  color: #512e8e;
+  border-bottom: 4px solid var(--pcbbrazo-color);
+  display: inline-block;
+}
+
+.can-title {
+  color: #c95e02;
+  border-bottom: 4px solid var(--can-color);
+  display: inline-block;
+}
+
+.safety-title {
+  color: #b02a37;
+  border-bottom: 4px solid var(--safety-color);
+  display: inline-block;
+}
+
+.integration-title {
+  color: #087f5b;
+  border-bottom: 4px solid var(--integration-color);
+  display: inline-block;
+}
+  
+  ul { padding-left: 22px; margin-top: 8px; }
+  li { margin-bottom: 6px; color: #495057;}
+  
+  @media (max-width: 768px) {
+    .container { padding: 1.5rem; }
+    #calendar { padding: 1rem; }
+    .fc .fc-toolbar { flex-direction: column; gap: 1rem; }
+  }
+
+  
+  /* --- STATUS BADGES & CONTROLS --- */
+  .status-select { 
+    padding: 6px 12px; border-radius: 20px; font-size: 13px; font-weight: 600;
+    border: 1px solid transparent; cursor: pointer; outline: none; appearance: none;
+    transition: all 0.2s; 
+  }
+  .status-en-proceso { background-color: #fff3cd; color: #856404; border-color: #ffeeba; }
+  .status-finalizado { background-color: #d1e7dd; color: #155724; border-color: #c3e6cb; }
+  .status-no-finalizado { background-color: #f8d7da; color: #721c24; border-color: #f5c6cb; }
+  
+  .date-input {
+    padding: 6px; border: 1px solid var(--border-color); border-radius: 6px;
+    font-size: 13px; color: var(--text-main); font-family: inherit; width: 130px;
+    background: #f8f9fa;
+  }
+  .date-input:focus { border-color: var(--primary); background: #fff; outline: none; }
+  
+  .highlight-row { border-left: 4px solid var(--primary) !important; background-color: rgba(13, 110, 253, 0.02) !important; }
+  .important-icon { color: var(--primary); margin-right: 5px; }
+
+  /* Notification Toast */
+  .toast {
+    position: fixed; bottom: 20px; right: 20px; background: #333; color: #fff;
+    padding: 12px 24px; border-radius: 8px; font-size: 14px; box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    opacity: 0; transform: translateY(20px); transition: all 0.3s; pointer-events: none; z-index: 1000;
+  }
+  .toast.show { opacity: 1; transform: translateY(0); }
+
+  
+  /* --- MODAL --- */
+  .modal-overlay {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.5); display: none; align-items: center; justify-content: center;
+    z-index: 2000; opacity: 0; transition: opacity 0.3s;
+  }
+  .modal-overlay.active { display: flex; opacity: 1; }
+  .modal-content {
+    background: #ffffff; width: 90%; max-width: 500px; border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2); overflow: hidden;
+    transform: translateY(-20px); transition: transform 0.3s;
+  }
+  .modal-overlay.active .modal-content { transform: translateY(0); }
+  .modal-header {
+    padding: 16px 20px; border-bottom: 1px solid var(--border-color);
+    display: flex; justify-content: space-between; align-items: center;
+    background: #f8f9fa;
+  }
+  .modal-header h3 { margin: 0; font-size: 1.2rem; color: var(--text-main); font-weight: 700; }
+  .close-btn { background: none; border: none; font-size: 24px; cursor: pointer; color: var(--text-muted); line-height: 1; }
+  .close-btn:hover { color: #dc3545; }
+  .modal-body { padding: 20px; font-size: 14.5px; line-height: 1.8; color: #495057; }
+  .status-badge { padding: 4px 12px; border-radius: 12px; font-weight: 700; font-size: 13px; display: inline-block; margin-top: 5px; }
+  
+  /* --- CUSTOM FC EVENTS VIEW --- */
+  .fc-event-phase {
+    background-color: var(--fc-bg-color); color: #fff; padding: 2px; font-size: 11px; border-radius: 4px;
+    opacity: 0.8 !important; transition: opacity 0.2s; text-align: center; border: none; cursor: pointer;
+  }
+  .fc-event-phase:hover { opacity: 1 !important; transform: scale(1.01); }
+  
+  .fc-event-deliv {
+    display: flex; align-items: center; gap: 6px; padding: 3px 8px; margin: 2px 0;
+    background-color: #fff; border: 1px solid #ced4da; border-radius: 16px;
+    color: #495057; font-size: 11.5px; font-weight: 600; cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.04); transition: all 0.2s;
+    overflow: hidden; white-space: nowrap; text-overflow: ellipsis;
+  }
+  .fc-event-deliv:hover {
+    transform: translateY(-2px); box-shadow: 0 4px 8px rgba(0,0,0,0.1); border-color: #adb5bd; z-index: 10;
+  }
+  .fc-deliv-dot { width: 9px; height: 9px; border-radius: 50%; border: 1px solid rgba(0,0,0,0.1); flex-shrink: 0; }
+  
+  /* Make sure background calendar events do not overflow cells unpleasantly */
+  .fc-daygrid-event-harness { z-index: 1; }
+
+  /* --- TABS --- */
+  .tab-container { margin-top: 2rem; }
+  .tab-buttons { display: flex; border-bottom: 2px solid var(--border-color); margin-bottom: 1.5rem; gap: 0.5rem; flex-wrap: wrap; }
+  .tab-btn { 
+    background: none; border: none; padding: 12px 24px; font-size: 16px; 
+    font-weight: 600; color: var(--text-muted); cursor: pointer;
+    border-bottom: 3px solid transparent; margin-bottom: -2px; transition: all 0.3s;
+  }
+  .tab-btn:hover { color: var(--primary); }
+  .tab-btn.active { color: var(--primary); border-bottom-color: var(--primary); }
+  .tab-content { display: none; margin-top: 1rem; }
+  .tab-content.active { display: block; padding-bottom: 3rem; }
+  .responsible-badge { font-size: 15px; color: var(--text-muted); font-weight: normal; margin-left: 10px; }
+
+</style>
+</head>
+<body>
+
+<div class="container">
+  <h1>Cronograma de Desarrollo Electrónico - CIRC 2026</h1>
+  <div class="header-info">
+    <strong>Fecha de Partida:</strong> <span id="today-date">—</span> <br>
+    <strong>Competencia:</strong> <span id="competition-date">—</span> <br>
+    <strong>Días restantes para la competencia:</strong> <span id="days-remaining">—</span>
+  </div>
+
+  
+  <div class="tab-container">
+    <div class="tab-buttons">
+      <button class="tab-btn active" onclick="openTab('calendario', this)">Calendario</button>
+      <button class="tab-btn" onclick="openTab('descripcion', this)">Descripción de los proyectos</button>
+      <button class="tab-btn" onclick="openTab('entregables', this)">Seguimiento de entregables</button>
+    </div>
+
+    <!-- PESTAÑA CALENDARIO -->
+    <div id="calendario" class="tab-content active">
+      <div id="calendar"></div>
+
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // --- Header dates (dynamic) ---
+const msPerDay = 24 * 60 * 60 * 1000;
+
+// Fecha REAL actual
+const currentDate = new Date();
+const currentMidnight = new Date(
+  currentDate.getFullYear(),
+  currentDate.getMonth(),
+  currentDate.getDate()
+);
+
+// Fecha de inicio del proyecto (FIJA)
+const projectStartDate = new Date(2026, 4, 3);
+
+// Fecha competencia
+const competitionDate = new Date(2026, 7, 7);
+const competitionMidnight = new Date(
+  competitionDate.getFullYear(),
+  competitionDate.getMonth(),
+  competitionDate.getDate()
+);
+
+      const formatEsDate = (d) => {
+        try {
+          const formatted = new Intl.DateTimeFormat('es-MX', { day: 'numeric', month: 'long', year: 'numeric' }).format(d);
+          const match = formatted.match(/^(\d{1,2}) de ([a-záéíóúñ]+) de (\d{4})$/i);
+          if (!match) return formatted;
+          const day = match[1];
+          const month = match[2];
+          const year = match[3];
+          const monthCapped = month.charAt(0).toUpperCase() + month.slice(1);
+          return `${day} de ${monthCapped} de ${year}`;
+        } catch {
+          const months = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+          return `${d.getDate()} de ${months[d.getMonth()]} de ${d.getFullYear()}`;
+        }
+      };
+
+      const todayEl = document.getElementById('today-date');
+      const competitionEl = document.getElementById('competition-date');
+      const remainingEl = document.getElementById('days-remaining');
+
+      if (todayEl) todayEl.textContent = formatEsDate(projectStartDate);
+      if (competitionEl) competitionEl.textContent = formatEsDate(competitionMidnight);
+
+      if (remainingEl) {
+        const diffDays = Math.max(0,Math.round((competitionMidnight - currentMidnight) / msPerDay));
+        remainingEl.textContent = `${diffDays} día${diffDays === 1 ? '' : 's'}`;
+      }
+      
+      
+      
+      var calendarEl = document.getElementById('calendar');
+      
+      const rawPhases = [
+
+        // SEMANA 1
+        {
+          title: 'Semana 1 - Arquitectura & Interfaces',
+          start: '2026-05-03',
+          end: '2026-05-10',
+          color: '#0d6efd',
+          targetId: 'arquitectura-title'
+        },
+
+        // SEMANA 2
+        {
+          title: 'Semana 2 - Definición técnica',
+          start: '2026-05-10',
+          end: '2026-05-17',
+          color: '#198754',
+          targetId: 'arquitectura-title'
+        },
+
+        // SEMANA 3
+        {
+          title: 'Semana 3 - PDB + esquemáticos',
+          start: '2026-05-17',
+          end: '2026-05-24',
+          color: '#fd7e14',
+          targetId: 'pdb-title'
+        },
+
+        // SEMANA 4
+        {
+          title: 'Semana 4 - Safety preliminar',
+          start: '2026-05-24',
+          end: '2026-05-31',
+          color: '#dc3545',
+          targetId: 'safety-title'
+        },
+
+        // SEMANA 5
+        {
+          title: 'Semana 5 - Layout PCB Chasis',
+          start: '2026-05-31',
+          end: '2026-06-07',
+          color: '#0dcaf0',
+          targetId: 'pcbchasis-title'
+        },
+
+        // SEMANA 6
+        {
+          title: 'Semana 6 - Cierre PCB Chasis',
+          start: '2026-06-07',
+          end: '2026-06-14',
+          color: '#0aa2c0',
+          targetId: 'pcbchasis-title'
+        },
+
+        // SEMANA 7
+        {
+          title: 'Semana 7 - Release + Safety Final',
+          start: '2026-06-14',
+          end: '2026-06-21',
+          color: '#6610f2',
+          targetId: 'safety-title'
+        },
+
+        // SEMANA 8
+        {
+          title: 'Semana 8 - Layout PCB Brazo',
+          start: '2026-06-21',
+          end: '2026-06-28',
+          color: '#6f42c1',
+          targetId: 'pcbbrazo-title'
+        },
+
+        // SEMANA 9
+        {
+          title: 'Semana 9 - Release PCB Brazo',
+          start: '2026-06-28',
+          end: '2026-07-05',
+          color: '#d63384',
+          targetId: 'pcbbrazo-title'
+        },
+
+        // SEMANA 10
+        {
+          title: 'Semana 10 - Recepción PCB Chasis',
+          start: '2026-07-05',
+          end: '2026-07-12',
+          color: '#198754',
+          targetId: 'integracion-title'
+        },
+
+        // SEMANA 11
+        {
+          title: 'Semana 11 - Bring-up Chasis',
+          start: '2026-07-12',
+          end: '2026-07-19',
+          color: '#20c997',
+          targetId: 'integracion-title'
+        },
+
+        // SEMANA 12
+        {
+          title: 'Semana 12 - Integración inicial',
+          start: '2026-07-19',
+          end: '2026-07-26',
+          color: '#ffc107',
+          targetId: 'integracion-title'
+        },
+
+        // SEMANA 13
+        {
+          title: 'Semana 13 - Integración completa',
+          start: '2026-07-26',
+          end: '2026-08-02',
+          color: '#fd7e14',
+          targetId: 'integracion-title'
+        },
+
+        // SEMANA 14
+        {
+          title: 'Semana 14 - Pruebas finales',
+          start: '2026-08-02',
+          end: '2026-08-06',
+          color: '#dc3545',
+          targetId: 'integracion-title'
+        },
+
+        // VIAJE
+        {
+          title: 'Viaje a Canadá',
+          start: '2026-08-06',
+          end: '2026-08-07',
+          color: '#212529',
+          targetId: 'integracion-title'
+        },
+
+        // COMPETENCIA
+        {
+          title: '🏆 CIRC 2026',
+          start: '2026-08-07',
+          end: '2026-08-14',
+          color: '#b02a37',
+          targetId: 'integracion-title'
+        }
+      ];
+
+      var calendar = new FullCalendar.Calendar(calendarEl, {
+        initialView: 'dayGridMonth',
+        initialDate: '2026-04-23',
+        locale: 'es',
+        firstDay: 0,
+        headerToolbar: {
+          left: 'prev,next today',
+          center: 'title',
+          right: 'dayGridMonth,multiMonthYear'
+        },
+        buttonText: { today: 'Hoy', month: 'Mensual', year: 'Anual' },
+        
+        // Custom Render for Phases and Deliverables
+        eventContent: function(arg) {
+           const props = arg.event.extendedProps;
+           // UI for Deliverables (dot + truncated short text)
+           if (props.type === 'deliverable') {
+              return { html: `<div class="fc-event-deliv" title="Ver entregable: ${arg.event.extendedProps.rawName}"><div class="fc-deliv-dot" style="background:${arg.event.backgroundColor}"></div>${arg.event.title}</div>` };
+           }
+        },
+        
+        // CLICK ON DAY CELLS
+        dateClick: function(info) {
+           const clickedDateStr = info.dateStr;
+           const clickedTimestamp = new Date(clickedDateStr + 'T00:00:00').getTime();
+           let htmlContent = '';
+           
+           // 1. Encontrar Fases activas en esta fecha
+           let activePhases = rawPhases.filter(p => {
+              const s = new Date(p.start + 'T00:00:00').getTime();
+              const e = new Date(p.end + 'T00:00:00').getTime();
+              // La fase incluye un rango (excluimos el fin exacto o no, tradicionalmente el end en FC es exclusivo)
+              return clickedTimestamp >= s && clickedTimestamp < e;
+           });
+           
+           if(activePhases.length > 0) {
+              htmlContent += '<h4 style="margin-top:0; font-size:15px; color:#495057; border-bottom: 2px solid #e9ecef; padding-bottom:5px;">Fases en Curso</h4>';
+              activePhases.forEach(p => {
+                 htmlContent += `<div onclick="closeDayModal(); goToPhase('${p.targetId}')" style="background: ${p.color}; color: white; padding: 6px 12px; margin-bottom: 6px; border-radius: 6px; font-weight: 600; font-size: 14px; cursor: pointer; transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.02)'" onmouseout="this.style.transform='scale(1)'" title="Ir a la descripción de esta fase">${p.title}</div>`;
+              });
+           }
+           
+           // 2. Encontrar Entregables en esta fecha
+           const currentDeliverables = JSON.parse(localStorage.getItem('circ_deliverables')) || initialDeliverables;
+           let activeDelivs = currentDeliverables.filter(d => d.date === clickedDateStr);
+           
+           if(activeDelivs.length > 0) {
+              htmlContent += '<h4 style="margin-top:15px; font-size:15px; color:#495057; border-bottom: 2px solid #e9ecef; padding-bottom:5px;">Entregables Pendientes / Vencidos</h4>';
+              activeDelivs.forEach(d => {
+                 let badgeClr = d.status === 'en-proceso' ? '#ffc107' : (d.status === 'finalizado' ? '#198754' : '#dc3545');
+                 htmlContent += `
+                   <div style="border: 1px solid #dee2e6; padding: 10px; border-radius: 8px; margin-bottom: 8px; cursor: pointer; transition: background 0.2s;" 
+                        onmouseover="this.style.backgroundColor='#f8f9fa'" 
+                        onmouseout="this.style.backgroundColor='white'"
+                        onclick="closeDayModal(); openModal('Detalles del Entregable', '', '${d.name.replace(/'/g, "\'")}', '${d.responsible}', '${d.status}');" >
+                     <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
+                        <div style="width: 12px; height: 12px; border-radius: 50%; background: ${badgeClr};"></div>
+                        <strong style="color: #212529;">${d.name}</strong>
+                     </div>
+                     <div style="font-size: 13px; color: #6c757d; margin-left: 20px;">Responsable: ${d.responsible}</div>
+                   </div>
+                 `;
+              });
+           }
+           
+           openDayModal(clickedDateStr, htmlContent);
+        },
+
+        // EVENT CLICK ROUTING
+        eventClick: function(info) {
+           const props = info.event.extendedProps;
+           // If user clicks a Deliverable event in the calendar directly
+           if (props.type === 'deliverable') {
+              openModal(
+                 "Detalles del Entregable", 
+                 props.project, 
+                 props.rawName, 
+                 props.responsible, 
+                 props.status
+              );
+           }
+        },
+
+        events: function(info, successCallback, failureCallback) {
+          let allEvents = [];
+          
+          // INYECTAR SOLO ENTREGABLES (PUNTOS)
+          const currentDeliverables = JSON.parse(localStorage.getItem('circ_deliverables')) || initialDeliverables;
+          currentDeliverables.forEach(d => {
+             // Colored dot indicator
+             let clr = '#ffc107'; // en-proceso
+             if(d.status === 'finalizado') clr = '#198754';
+             if(d.status === 'no-finalizado') clr = '#dc3545';
+             
+             let projectName = "Hito General";
+             let rawName = d.name;
+             
+             // Extract bracket tags
+             const match = d.name.match(/^\[(.*?)\]\s*(.*)$/);
+             if (match) {
+                 projectName = match[1];
+                 rawName = match[2];
+             } else if (d.name.includes("Chasis")) projectName = "Chasis";
+             else if (d.name.includes("Brazo")) projectName = "Brazo Robótico";
+             else if (d.name.includes("Telecomms") || d.name.includes("PCB") || d.name.includes("telecomms")) projectName = "Integración Múltiple";
+
+             // Very short title for clean view
+             let shortTitle = rawName.length > 25 ? rawName.substring(0, 22) + '...' : rawName;
+             
+             allEvents.push({
+                title: shortTitle,
+                start: d.date,
+                allDay: true,
+                backgroundColor: clr,
+                extendedProps: {
+                    type: 'deliverable',
+                    project: projectName,
+                    rawName: rawName,
+                    responsible: d.responsible,
+                    status: d.status
+                }
+             });
+          });
+
+          successCallback(allEvents);
+        }
+      });
+      calendar.render();
+      window.circCalendar = calendar;
+
+
+
+    });
+
+    function updateCalendarEvents() {
+        if(window.circCalendar) {
+            window.circCalendar.refetchEvents();
+        }
+    }
+  </script>
+
+  </script>
+  
+      <!-- Fix para el renderizado del calendario al cambiar de pestaña -->
+      <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(() => window.dispatchEvent(new Event('resize')), 100);
+        });
+      </script>
+    </div>
+
+    <!-- PESTAÑA DESCRIPCION DE PROYECTOS -->
+    <div id="descripcion" class="tab-content">
+      <h2 class="pdb-title">
+      1. Proyecto: PDB
+      <span class="responsible-badge">
+      (Responsables: Nat, Carlos y Aquiles)
+      </span>
+      </h2>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Fase / Duración</th>
+            <th>Fechas</th>
+            <th>Actividades Planificadas</th>
+            <th>Entregables</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Arquitectura y definición</strong></td>
+            <td>03 May – 16 May</td>
+            <td>
+              <ul>
+                <li>Definición de distribución de energía</li>
+                <li>Selección de protecciones y fusibles</li>
+                <li>Diseño conceptual del sistema</li>
+              </ul>
+            </td>
+            <td>
+              <ul>
+                <li>Documento conceptual PDB v1</li>
+                <li>Arquitectura eléctrica definida</li>
+              </ul>
+            </td>
+          </tr>
+
+          <tr>
+            <td><strong>Diseño completo PDB</strong></td>
+            <td>17 May – 23 May</td>
+            <td>
+              <ul>
+                <li>Cálculo de corrientes (~100A)</li>
+                <li>Protecciones y distribución</li>
+                <li>Routing físico de cableado</li>
+              </ul>
+            </td>
+            <td>
+              <ul>
+                <li>Documento completo PDB</li>
+                <li>BOM preliminar</li>
+              </ul>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+
+      <h2 class="pcbchasis-title">
+      2. Proyecto: PCB Chasis
+      <span class="responsible-badge">
+      (Responsables: Lalo, Arturo y Nat)
+      </span>
+      </h2>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Fase / Duración</th>
+            <th>Fechas</th>
+            <th>Actividades Planificadas</th>
+            <th>Entregables</th>
+          </tr>
+        </thead>
+        <tbody>
+
+          <tr>
+            <td><strong>Esquemáticos</strong></td>
+            <td>10 May – 30 May</td>
+            <td>
+              <ul>
+                <li>Diseño de esquemáticos</li>
+                <li>ERC y validación</li>
+                <li>Definición de footprints</li>
+              </ul>
+            </td>
+            <td>
+              <ul>
+                <li>Esquemáticos finales</li>
+              </ul>
+            </td>
+          </tr>
+
+          <tr>
+            <td><strong>Layout PCB</strong></td>
+            <td>31 May – 13 Jun</td>
+            <td>
+              <ul>
+                <li>Placement y routing</li>
+                <li>DRC/ERC final</li>
+                <li>Stackup y planos</li>
+              </ul>
+            </td>
+            <td>
+              <ul>
+                <li>Layout finalizado</li>
+                <li>Checklist manufactura</li>
+              </ul>
+            </td>
+          </tr>
+
+          <tr>
+            <td><strong>Manufactura</strong></td>
+            <td>14 Jun – 20 Jun</td>
+            <td>
+              <ul>
+                <li>Generación de Gerbers</li>
+                <li>Release de fabricación</li>
+              </ul>
+            </td>
+            <td>
+              <ul>
+                <li>PCB enviada a manufactura</li>
+              </ul>
+            </td>
+          </tr>
+
+        </tbody>
+      </table>
+
+
+      <h2 class="pcbbrazo-title">
+      3. Proyecto: PCB Brazo
+      <span class="responsible-badge">
+      (Responsables: Arturo, Lalo y Carlos)
+      </span>
+      </h2>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Fase / Duración</th>
+            <th>Fechas</th>
+            <th>Actividades Planificadas</th>
+            <th>Entregables</th>
+          </tr>
+        </thead>
+
+        <tbody>
+
+          <tr>
+            <td><strong>Esquemáticos</strong></td>
+            <td>10 May – 30 May</td>
+            <td>
+              <ul>
+                <li>Diseño eléctrico del brazo</li>
+                <li>Integración sensores/drivers</li>
+              </ul>
+            </td>
+            <td>
+              <ul>
+                <li>Esquemáticos completos</li>
+              </ul>
+            </td>
+          </tr>
+
+          <tr>
+            <td><strong>Layout y Routing</strong></td>
+            <td>21 Jun – 04 Jul</td>
+            <td>
+              <ul>
+                <li>Placement y routing final</li>
+                <li>Revisión cruzada</li>
+              </ul>
+            </td>
+            <td>
+              <ul>
+                <li>PCB brazo enviada</li>
+              </ul>
+            </td>
+          </tr>
+
+        </tbody>
+      </table>
+
+
+      <h2 class="can-title">
+      4. Proyecto: Telecomms / CAN
+      <span class="responsible-badge">
+      (Responsables: Aquiles, Carlos y Nat)
+      </span>
+      </h2>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Fase / Duración</th>
+            <th>Fechas</th>
+            <th>Actividades Planificadas</th>
+            <th>Entregables</th>
+          </tr>
+        </thead>
+
+        <tbody>
+
+          <tr>
+            <td><strong>Arquitectura CAN</strong></td>
+            <td>03 May – 16 May</td>
+            <td>
+              <ul>
+                <li>Definición de buses</li>
+                <li>Topología de red</li>
+                <li>STM32 partitions</li>
+              </ul>
+            </td>
+            <td>
+              <ul>
+                <li>Arquitectura CAN definida</li>
+              </ul>
+            </td>
+          </tr>
+
+          <tr>
+            <td><strong>Integración</strong></td>
+            <td>Julio</td>
+            <td>
+              <ul>
+                <li>Bring-up CAN</li>
+                <li>Comunicación Jetson-STM32</li>
+              </ul>
+            </td>
+            <td>
+              <ul>
+                <li>Comunicación estable</li>
+              </ul>
+            </td>
+          </tr>
+
+        </tbody>
+      </table>
+
+
+      <h2 class="safety-title">
+      5. Proyecto: Safety Report
+      <span class="responsible-badge">
+      (Responsables: Carlos y todo el equipo)
+      </span>
+      </h2>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Fase / Duración</th>
+            <th>Fechas</th>
+            <th>Actividades Planificadas</th>
+            <th>Entregables</th>
+          </tr>
+        </thead>
+
+        <tbody>
+
+          <tr>
+            <td><strong>Desarrollo Safety</strong></td>
+            <td>03 May – 17 Jun</td>
+            <td>
+              <ul>
+                <li>Actualización del reporte</li>
+                <li>Integración electrónica nueva</li>
+                <li>Diagramas y documentación</li>
+              </ul>
+            </td>
+            <td>
+              <ul>
+                <li>Safety preliminar 80%</li>
+                <li>Entrega final</li>
+              </ul>
+            </td>
+          </tr>
+
+        </tbody>
+      </table>
+
+
+      <h2 class="integration-title">
+      6. Proyecto: Integración y Pruebas
+      <span class="responsible-badge">
+      (Todo el equipo)
+      </span>
+      </h2>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Fase / Duración</th>
+            <th>Fechas</th>
+            <th>Actividades Planificadas</th>
+            <th>Entregables</th>
+          </tr>
+        </thead>
+
+        <tbody>
+
+          <tr>
+            <td><strong>Bring-up e integración</strong></td>
+            <td>05 Jul – 01 Ago</td>
+            <td>
+              <ul>
+                <li>Pruebas funcionales</li>
+                <li>Integración Jetson + STM32</li>
+                <li>Corrección de bugs</li>
+              </ul>
+            </td>
+            <td>
+              <ul>
+                <li>Sistema funcional</li>
+                <li>Sistema estable</li>
+              </ul>
+            </td>
+          </tr>
+
+          <tr>
+            <td><strong>Pruebas finales</strong></td>
+            <td>02 Ago – 05 Ago</td>
+            <td>
+              <ul>
+                <li>Pruebas de estrés</li>
+                <li>Checklist CIRC</li>
+                <li>Inventario y logística</li>
+              </ul>
+            </td>
+            <td>
+              <ul>
+                <li>Equipo listo para competencia</li>
+              </ul>
+            </td>
+          </tr>
+
+        </tbody>
+      </table>
+    </div>
+
+    <!-- PESTAÑA SEGUIMIENTO DE ENTREGABLES -->
+    <div id="entregables" class="tab-content">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+        <h2>Seguimiento de Entregables</h2>
+        <button class="fc-button-primary" style="border:none; padding: 8px 16px; border-radius: 8px; cursor:pointer;" onclick="resetDeliverables()">Resetear Cambios</button>
+      </div>
+      
+      <div id="tablesContainer">
+          <!-- Renderizado dinamicamente por JS en multiples tablas -->
+        </div>
+    </div>
+  </div>
+
+  <div id="toast" class="toast">Cronograma actualizado!</div>
+
+  <script>
+    // ESTADO INICIAL
+const initialDeliverables = [
+
+  // =========================================================
+  // SEMANA 1 — ARQUITECTURA & INTERFACES
+  // =========================================================
+
+  {
+    id: "w1_arch_1",
+    name: "[Telecomms/CAN] Arquitectura CAN y buses definida",
+    responsible: "Aquiles, Carlos, Nat",
+    date: "2026-05-06",
+    status: "en-proceso",
+    important: true
+  },
+
+  {
+    id: "w1_arch_2",
+    name: "[PDB] Definición preliminar de conectores y distribución",
+    responsible: "Nat, Carlos, Aquiles",
+    date: "2026-05-07",
+    status: "en-proceso",
+    important: false
+  },
+
+  {
+    id: "w1_arch_3",
+    name: "[General] Documento de arquitectura v1",
+    responsible: "Todos",
+    date: "2026-05-09",
+    status: "en-proceso",
+    important: true
+  },
+
+  {
+    id: "w1_arch_4",
+    name: "[Safety Report] Índice y estructura inicial",
+    responsible: "Carlos, Todos",
+    date: "2026-05-09",
+    status: "en-proceso",
+    important: false
+  },
+
+  // =========================================================
+  // SEMANA 2 — DEFINICIÓN TÉCNICA
+  // =========================================================
+
+  {
+    id: "w2_1",
+    name: "[PCB Chasis] Inicio de esquemáticos",
+    responsible: "Lalo, Arturo, Nat",
+    date: "2026-05-12",
+    status: "en-proceso",
+    important: true
+  },
+
+  {
+    id: "w2_2",
+    name: "[PCB Brazo] Inicio de esquemáticos",
+    responsible: "Arturo, Lalo, Carlos",
+    date: "2026-05-12",
+    status: "en-proceso",
+    important: true
+  },
+
+  {
+    id: "w2_3",
+    name: "[PDB] Documento conceptual PDB v1",
+    responsible: "Nat, Carlos, Aquiles",
+    date: "2026-05-15",
+    status: "en-proceso",
+    important: true
+  },
+
+  {
+    id: "w2_4",
+    name: "[General] BOM preliminar v0",
+    responsible: "Todos",
+    date: "2026-05-16",
+    status: "en-proceso",
+    important: false
+  },
+
+  // =========================================================
+  // SEMANA 3 — PDB ENTREGA
+  // =========================================================
+
+  {
+    id: "w3_1",
+    name: "[PDB] Cálculo de corrientes y protecciones",
+    responsible: "Aquiles, Nat, Carlos",
+    date: "2026-05-19",
+    status: "en-proceso",
+    important: true
+  },
+
+  {
+    id: "w3_2",
+    name: "[PCB Chasis] Esquemáticos al 70%",
+    responsible: "Lalo, Arturo, Nat",
+    date: "2026-05-21",
+    status: "en-proceso",
+    important: false
+  },
+
+  {
+    id: "w3_3",
+    name: "[PCB Brazo] Esquemáticos al 70%",
+    responsible: "Arturo, Lalo, Carlos",
+    date: "2026-05-21",
+    status: "en-proceso",
+    important: false
+  },
+
+  {
+    id: "w3_4",
+    name: "[PDB] Documento completo PDB",
+    responsible: "Aquiles, Nat, Carlos",
+    date: "2026-05-23",
+    status: "en-proceso",
+    important: true
+  },
+
+  // =========================================================
+  // SEMANA 4 — SAFETY PRELIMINAR
+  // =========================================================
+
+  {
+    id: "w4_1",
+    name: "[PCB Chasis] Esquemáticos finales",
+    responsible: "Lalo, Arturo, Nat",
+    date: "2026-05-28",
+    status: "en-proceso",
+    important: true
+  },
+
+  {
+    id: "w4_2",
+    name: "[PCB Brazo] Esquemáticos finales",
+    responsible: "Arturo, Lalo, Carlos",
+    date: "2026-05-28",
+    status: "en-proceso",
+    important: true
+  },
+
+  {
+    id: "w4_3",
+    name: "[Safety Report] Versión preliminar 80%",
+    responsible: "Carlos, Todos",
+    date: "2026-05-30",
+    status: "en-proceso",
+    important: true
+  },
+
+  // =========================================================
+  // SEMANA 5 — LAYOUT CHASIS
+  // =========================================================
+
+  {
+    id: "w5_1",
+    name: "[PCB Chasis] Placement completo",
+    responsible: "Lalo, Arturo, Nat",
+    date: "2026-06-03",
+    status: "en-proceso",
+    important: false
+  },
+
+  {
+    id: "w5_2",
+    name: "[PCB Chasis] Stackup definido",
+    responsible: "Lalo",
+    date: "2026-06-04",
+    status: "en-proceso",
+    important: false
+  },
+
+  {
+    id: "w5_3",
+    name: "[Integración] Plan de pruebas v0",
+    responsible: "Todos",
+    date: "2026-06-06",
+    status: "en-proceso",
+    important: false
+  },
+
+  // =========================================================
+  // SEMANA 6 — CIERRE PCB CHASIS
+  // =========================================================
+
+  {
+    id: "w6_1",
+    name: "[PCB Chasis] Layout finalizado",
+    responsible: "Lalo, Arturo, Nat",
+    date: "2026-06-11",
+    status: "en-proceso",
+    important: true
+  },
+
+  {
+    id: "w6_2",
+    name: "[PCB Chasis] Checklist pre-manufactura",
+    responsible: "Nat",
+    date: "2026-06-12",
+    status: "en-proceso",
+    important: false
+  },
+
+  {
+    id: "w6_3",
+    name: "[PCB Brazo] Placement inicial",
+    responsible: "Arturo, Lalo, Carlos",
+    date: "2026-06-13",
+    status: "en-proceso",
+    important: false
+  },
+
+  // =========================================================
+  // SEMANA 7 — RELEASE CHASIS
+  // =========================================================
+
+  {
+    id: "w7_1",
+    name: "[PCB Chasis] Gerbers y archivos de manufactura",
+    responsible: "Lalo, Arturo, Nat",
+    date: "2026-06-16",
+    status: "en-proceso",
+    important: true
+  },
+
+  {
+    id: "w7_2",
+    name: "[PCB Chasis] PCB enviada a manufactura",
+    responsible: "Lalo, Arturo, Nat",
+    date: "2026-06-17",
+    status: "en-proceso",
+    important: true
+  },
+
+  {
+    id: "w7_3",
+    name: "[Safety Report] Entrega final",
+    responsible: "Carlos, Todos",
+    date: "2026-06-17",
+    status: "en-proceso",
+    important: true
+  },
+
+  // =========================================================
+  // SEMANA 8 — LAYOUT BRAZO
+  // =========================================================
+
+  {
+    id: "w8_1",
+    name: "[PCB Brazo] Routing completo",
+    responsible: "Arturo, Lalo, Carlos",
+    date: "2026-06-24",
+    status: "en-proceso",
+    important: true
+  },
+
+  {
+    id: "w8_2",
+    name: "[PCB Brazo] Plan de pruebas brazo",
+    responsible: "Todos",
+    date: "2026-06-26",
+    status: "en-proceso",
+    important: false
+  },
+
+  // =========================================================
+  // SEMANA 9 — RELEASE BRAZO
+  // =========================================================
+
+  {
+    id: "w9_1",
+    name: "[PCB Brazo] Gerbers y BOM finales",
+    responsible: "Arturo, Lalo, Carlos",
+    date: "2026-07-01",
+    status: "en-proceso",
+    important: true
+  },
+
+  {
+    id: "w9_2",
+    name: "[PCB Brazo] PCB enviada a manufactura",
+    responsible: "Arturo, Lalo, Carlos",
+    date: "2026-07-02",
+    status: "en-proceso",
+    important: true
+  },
+
+  {
+    id: "w9_3",
+    name: "[General] Documentación final de fabricación",
+    responsible: "Todos",
+    date: "2026-07-03",
+    status: "en-proceso",
+    important: false
+  },
+
+  // =========================================================
+  // SEMANA 10 — RECEPCIÓN CHASIS
+  // =========================================================
+
+  {
+    id: "w10_1",
+    name: "[PCB Chasis] Recepción e inspección",
+    responsible: "Lalo",
+    date: "2026-07-07",
+    status: "en-proceso",
+    important: true
+  },
+
+  {
+    id: "w10_2",
+    name: "[PCB Chasis] Ensamble al 70%",
+    responsible: "Lalo, Arturo, Nat",
+    date: "2026-07-10",
+    status: "en-proceso",
+    important: true
+  },
+
+  // =========================================================
+  // SEMANA 11 — BRING-UP CHASIS
+  // =========================================================
+
+  {
+    id: "w11_1",
+    name: "[PCB Chasis] Bring-up básico funcional",
+    responsible: "Lalo, Carlos",
+    date: "2026-07-15",
+    status: "en-proceso",
+    important: true
+  },
+
+  {
+    id: "w11_2",
+    name: "[PCB Brazo] Recepción e inspección",
+    responsible: "Arturo",
+    date: "2026-07-17",
+    status: "en-proceso",
+    important: false
+  },
+
+  // =========================================================
+  // SEMANA 12 — ENSAMBLE BRAZO
+  // =========================================================
+
+  {
+    id: "w12_1",
+    name: "[PCB Brazo] Bring-up funcional",
+    responsible: "Arturo, Carlos",
+    date: "2026-07-22",
+    status: "en-proceso",
+    important: true
+  },
+
+  {
+    id: "w12_2",
+    name: "[Telecomms/CAN] Comunicación CAN estable",
+    responsible: "Aquiles, Nat",
+    date: "2026-07-24",
+    status: "en-proceso",
+    important: true
+  },
+
+  // =========================================================
+  // SEMANA 13 — INTEGRACIÓN TOTAL
+  // =========================================================
+
+  {
+    id: "w13_1",
+    name: "[Integración] Sistema completamente funcional",
+    responsible: "Todo el equipo",
+    date: "2026-07-30",
+    status: "en-proceso",
+    important: true
+  },
+
+  {
+    id: "w13_2",
+    name: "[Integración] Bugs críticos corregidos",
+    responsible: "Todo el equipo",
+    date: "2026-07-31",
+    status: "en-proceso",
+    important: false
+  },
+
+  // =========================================================
+  // SEMANA 14 — PRUEBAS FINALES
+  // =========================================================
+
+  {
+    id: "w14_1",
+    name: "[Integración] Sistema validado para competencia",
+    responsible: "Todo el equipo",
+    date: "2026-08-03",
+    status: "en-proceso",
+    important: true
+  },
+
+  {
+    id: "w14_2",
+    name: "[Integración] Inventario y repuestos completos",
+    responsible: "Todo el equipo",
+    date: "2026-08-04",
+    status: "en-proceso",
+    important: false
+  },
+
+  {
+    id: "w14_3",
+    name: "[General] Equipo listo para viaje",
+    responsible: "Todo el equipo",
+    date: "2026-08-05",
+    status: "en-proceso",
+    important: true
+  }
+
+];
+
+    let deliverables = JSON.parse(localStorage.getItem('circ_deliverables')) || initialDeliverables;
+
+    function renderTable() {
+        const container = document.getElementById('tablesContainer');
+        container.innerHTML = '';
+        
+        const groups = {
+           "Chasis": [],
+           "Brazo Robótico": [],
+           "Integración Múltiple (mROS, Telecomms, PCB)": [],
+           "Otros / Competencia": []
+        };
+        
+        deliverables.forEach((item) => {
+            if (/chasis/i.test(item.name)) {
+                groups["Chasis"].push(item);
+            } else if (/brazo/i.test(item.name)) {
+                groups["Brazo Robótico"].push(item);
+            } else if (/telecomms|pcb|mros/i.test(item.name)) {
+                groups["Integración Múltiple (mROS, Telecomms, PCB)"].push(item);
+            } else {
+                groups["Otros / Competencia"].push(item);
+            }
+        });
+        
+        for(let g in groups) {
+           if(groups[g].length === 0) continue;
+           
+           const sectionTitle = document.createElement('h3');
+           sectionTitle.style.marginTop = "2.5rem";
+           sectionTitle.style.marginBottom = "1rem";
+           sectionTitle.style.color = "var(--primary)";
+           sectionTitle.style.fontSize = "1.3rem";
+           sectionTitle.style.borderBottom = "2px solid #e9ecef";
+           sectionTitle.style.paddingBottom = "5px";
+           sectionTitle.innerText = g;
+           container.appendChild(sectionTitle);
+           
+           const table = document.createElement('table');
+           table.id = "tabla-" + g.replace(/\s+/g, '');
+           table.innerHTML = `
+              <thead>
+                <tr>
+                  <th style="width: 25%;">Hito / Entregable</th>
+                  <th style="width: 15%;">Responsable</th>
+                  <th style="width: 20%;">Fecha Programada</th>
+                  <th style="width: 20%;">Estado</th>
+                  <th style="width: 20%;">Reprogramar</th>
+                </tr>
+              </thead>
+              <tbody>
+              </tbody>
+           `;
+           container.appendChild(table);
+           
+           const tbody = table.querySelector('tbody');
+           groups[g].forEach((item) => {
+              const row = document.createElement('tr');
+              if (item.important) row.classList.add('highlight-row');
+              
+              const canReschedule = item.status === 'no-finalizado';
+              
+              row.innerHTML = `
+                <td>${item.important ? '<span class="important-icon">★</span>' : ''}<strong>${item.name}</strong></td>
+                <td>${item.responsible}</td>
+                <td><strong>${formatDate(item.date)}</strong></td>
+                <td>
+                  <select class="status-select status-${item.status}" onchange="updateStatus('${item.id}', this.value)">
+                    <option value="en-proceso" ${item.status === 'en-proceso' ? 'selected' : ''}>En Proceso</option>
+                    <option value="finalizado" ${item.status === 'finalizado' ? 'selected' : ''}>Finalizado</option>
+                    <option value="no-finalizado" ${item.status === 'no-finalizado' ? 'selected' : ''}>No Finalizado</option>
+                  </select>
+                </td>
+                <td>
+                  ${canReschedule ? `<input type="date" class="date-input" value="${item.date}" onchange="updateDate('${item.id}', this.value)">` : '<span style="color: #adb5bd; font-size: 13px;">N/A</span>'}
+                </td>
+              `;
+              tbody.appendChild(row);
+             });
+          }
+      }
+
+    function updateStatus(id, newStatus) {
+      const item = deliverables.find(d => d.id === id);
+      if(item) {
+        item.status = newStatus;
+        saveAndReload();
+      }
+    }
+
+    function updateDate(id, newDate) {
+      if(!newDate) return;
+      const item = deliverables.find(d => d.id === id);
+      if(item) {
+        item.date = newDate;
+        item.status = 'en-proceso'; // Vuelve a estar en proceso si se reprograma
+        showToast('Fecha reprogramada. El calendario se ha actualizado.');
+        saveAndReload();
+      }
+    }
+
+    function saveAndReload() {
+      localStorage.setItem('circ_deliverables', JSON.stringify(deliverables));
+      renderTable();
+      updateCalendarEvents(); // Actualizar FullCalendar
+    }
+
+    function resetDeliverables() {
+      if(confirm('¿Estás seguro de que deseas resetear los entregables a su estado original?')) {
+        deliverables = JSON.parse(JSON.stringify(initialDeliverables));
+        saveAndReload();
+        showToast('Entregables reseteados al plan original.');
+      }
+    }
+
+    function formatDate(dateStr) {
+      const options = { day: 'numeric', month: 'short', year: 'numeric' };
+      return new Date(dateStr + 'T00:00:00').toLocaleDateString('es-ES', options);
+    }
+    
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      toast.innerText = msg;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 3000);
+    }
+
+    // Funcionalidad de pestañas
+    function openTab(tabId, btn) {
+      document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+      document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+      
+      document.getElementById(tabId).classList.add('active');
+      btn.classList.add('active');
+      
+      if (tabId === 'calendario') {
+         setTimeout(() => window.dispatchEvent(new Event('resize')), 50);
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      renderTable();
+    });
+  </script>
+
+
+<!-- DAY MODAL -->
+<div id="dayModal" class="modal-overlay">
+  <div class="modal-content" style="max-height: 80vh; display: flex; flex-direction: column;">
+    <div class="modal-header">
+      <h3 id="dayModalTitle">Eventos del Día</h3>
+      <button class="close-btn" onclick="closeDayModal()">&times;</button>
+    </div>
+    <div class="modal-body" id="dayModalBody" style="overflow-y: auto; padding-top: 10px;">
+      <!-- Content populated dynamically -->
+    </div>
+  </div>
+</div>
+
+<script>
+
+function goToPhase(targetId) {
+    const tabBtn = document.querySelector('button[onclick*="descripcion"]');
+    if (tabBtn) openTab('descripcion', tabBtn);
+    setTimeout(() => {
+       const target = document.querySelector('.' + targetId);
+       if(target) {
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          const originalBg = target.style.backgroundColor;
+          target.style.transition = "background 0.5s ease";
+          target.style.backgroundColor = "#fff3cd";
+          target.style.borderRadius = "8px";
+          setTimeout(() => {
+             target.style.backgroundColor = originalBg; 
+          }, 1200);
+       }
+    }, 100);
+}
+
+function closeDayModal() {
+  document.getElementById('dayModal').classList.remove('active');
+}
+function openDayModal(dateStr, htmlContent) {
+  // Format date loosely (e.g. 2026-04-23 -> 23 Abr 2026)
+  const d = new Date(dateStr + 'T00:00:00');
+  const dStr = d.toLocaleDateString('es-ES', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+  
+  document.getElementById('dayModalTitle').innerText = dStr.charAt(0).toUpperCase() + dStr.slice(1);
+  
+  const body = document.getElementById('dayModalBody');
+  if (!htmlContent) {
+     body.innerHTML = '<div style="color: #6c757d; text-align: center; padding: 20px;">No hay eventos registrados en este día.</div>';
+  } else {
+     body.innerHTML = htmlContent;
+  }
+  
+  document.getElementById('dayModal').classList.add('active');
+}
+document.getElementById('dayModal').addEventListener('click', function(e) {
+  if (e.target === this) closeDayModal();
+});
+</script>
+
+<!-- MODAL ENTREGABLES -->
+<div id="delivModal" class="modal-overlay">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3 id="modalTitle">Detalle</h3>
+      <button class="close-btn" onclick="closeModal()">&times;</button>
+    </div>
+    <div class="modal-body">
+      <div style="margin-bottom: 12px; font-size: 16px;"><strong>Proyecto:</strong> <span id="modalProject" style="color: var(--primary); font-weight: 700;"></span></div>
+      <div style="margin-bottom: 12px; font-size: 15px;"><strong>Entregable / Hito:</strong> <span id="modalDesc"></span></div>
+      <div style="margin-bottom: 12px;"><strong>Responsables:</strong> <span id="modalResp"></span></div>
+      <div style="margin-top: 15px;"><strong>Estado:</strong> <br>
+      <span id="modalStatusBadge" class="status-badge"></span></div>
+    </div>
+  </div>
+</div>
+
+<script>
+function closeModal() {
+  document.getElementById('delivModal').classList.remove('active');
+}
+function openModal(title, project, desc, resp, status) {
+  document.getElementById('modalTitle').innerText = title;
+  document.getElementById('modalProject').innerText = project;
+  document.getElementById('modalDesc').innerText = desc;
+  document.getElementById('modalResp').innerText = resp;
+  
+  const badge = document.getElementById('modalStatusBadge');
+  badge.innerText = status === 'en-proceso' ? 'En Proceso' : (status === 'finalizado' ? 'Finalizado' : 'No Finalizado');
+  
+  // Custom Badge Look
+  badge.style.backgroundColor = status === 'en-proceso' ? '#fff3cd' : (status === 'finalizado' ? '#d1e7dd' : '#f8d7da');
+  badge.style.color = status === 'en-proceso' ? '#856404' : (status === 'finalizado' ? '#155724' : '#721c24');
+  badge.style.border = '1px solid ' + (status === 'en-proceso' ? '#ffeeba' : (status === 'finalizado' ? '#c3e6cb' : '#f5c6cb'));
+  
+  document.getElementById('delivModal').classList.add('active');
+}
+
+// Cerrar modal al clickear afuera del contenido
+document.getElementById('delivModal').addEventListener('click', function(e) {
+  if (e.target === this) closeModal();
+});
+</script>
+
+</body>
+</html>
